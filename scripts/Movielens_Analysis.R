@@ -531,3 +531,16 @@ print(largest_errors_table)
 
 #An RMSE of ~0.0326 on a scale of 0.5 to 5.0 ratings indicates very high accuracy. The predictions are extremely close to the actual ratings.
 #This level of performance suggests the feature engineering, model selection (elastic net), and hyperparameter tuning were effective.
+
+
+################################################################################
+# References
+################################################################################
+
+#Durrani, A. (2024, August 15). Top streaming statistics in 2024. Forbes. https://www.forbes.com/home-improvement/internet/streaming-stats/ 
+  
+#F. Maxwell Harper and Joseph A. Konstan. 2015. The MovieLens Datasets: History and Context. ACM Transactions on Interactive Intelligent Systems (TiiS) 5, 4: 19:1–19:19. https://doi.org/10.1145/2827872
+
+#Jesse Vig, Shilad Sen, and John Riedl. 2012. The Tag Genome: Encoding Community Knowledge to Support Novel Interaction. ACM Trans. Interact. Intell. Syst. 2, 3: 13:1–13:44. https://doi.org/10.1145/2362394.2362395
+
+#Link to MovieLens dataset 10mil: https://grouplens.org/datasets/movielens/10m/
