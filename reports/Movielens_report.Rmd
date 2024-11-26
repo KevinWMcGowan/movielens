@@ -3,9 +3,9 @@ title: "MovieLens Project Report"
 author: "Kevin McGowan"
 date: "2024-11-25"
 output:
-  pdf_document: default
-  html_document: default
+  html_document:
     df_print: paged
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -17,12 +17,12 @@ This MovieLens project report, part of the HarvardX: PH125.9x Data Science: Caps
 
 - **Introduction**
 - **Methodology**
-  - Exploratory Data Analysis: Understanding the dataset’s structure, patterns, and distributions.
-  - Feature Development: Creating meaningful variables that capture user preferences and movie attributes.
-  - Modeling: Applying regression techniques to treat movie ratings as a continuous variable.
-  - Validation: Testing the model’s accuracy on independent data using Root Mean Squared Error (RMSE) as the primary performance metric.
-  - Prediction on Independent Data: Evaluating the model on a completely independent holdout set.
+  - Exploratory Data Analysis
+  - Feature Development
+  - Modeling
+  - Visualization
 - **Results**
+  - Testing on Independent Final Holdout Set
 - **Discussion**
 
 In August 2024, Forbes reported that Netflix, the global leader in video streaming, had 260.28 million subscribers worldwide, with the global video streaming industry valued at $544 billion annually (Durrani & Allen, 2024). Personalized recommendation systems are vital for platforms like Netflix to keep viewers engaged by presenting content aligned with user preferences. This report focuses on developing a robust predictive model that leverages historical user behavior and movie characteristics to forecast ratings. Accurate rating predictions serve as the foundation for crafting personalized recommendations, not only improving viewer satisfaction but also informing strategic content decisions.
@@ -34,26 +34,22 @@ This predictive model considers two primary sources of information: the user and
 
 The data set used in this machine learning task is the 10 million MovieLens data set, which contains 10,000,054 ratings applied to 10,681 movies by 71,567 users (Harper & Konstan, 2015). These data are spread across two primary files—ratings.dat and movies.dat—that need to be joined for analysis. Each user has been assigned a unique ID to anonymize their identity, and only users who rated at least 20 movies were included in the dataset. No additional demographic or behavioral information about the users is provided.
 
-The ratings are recorded on a 5-star scale, allowing for 0.5-star increments for a total of 11 possible rating levels between 0.5 and 5. The data set includes 18 distinct genres, such as Action, Comedy, Drama, and Western.
-ly used in industries such as streaming platforms (e.g., Netflix, Hulu), e-commerce, and online marketplaces. Next the method section loads and explores the data set, builds performance features, and trains the machine learning algorithm on the 10 million MovieLens data set.
+The ratings are recorded on a 5-star scale, allowing for 0.5-star increments for a total of 10 possible rating levels between 0.5 and 5. The data set includes 18 distinct genres, such as Action, Comedy, Drama, and Western. Next the method section loads and explores the data set, builds performance features, and trains the machine learning algorithm on the 10 million MovieLens data set.
 
 # Method/Analysis
-A methods/analysis section that explains the process and techniques used, including data cleaning, data exploration and visualization, insights gained, and your modeling approach
 
 ## Data Wrangling 
-Before we can train movie rating prediction algorithm out of the 10mil dataset, the data set needs to be prepared for analysis. The steps in doing so are as follows: 
+Before training the movie rating prediction algorithm out of the 10mil dataset, the data set needs to be prepared for analysis. The steps in doing so are as follows: 
 
 - Load Data: download, unzip, and combine ratings.dat and movies.dat;
 - Explore Data: variables, dimensions, and insights
 - Feature Development: descriptive statistics of users and movies
-- Model Development: regression, training, cross validaition
-- Prediction: Forecasting ratings on the trianing set.
- 
-To prepare the data for model training and evaluation, the dataset was randomly split into an edx training set (90% of the data) and a final holdout test set (10% of the data). The split ensures that the training set includes all user-movie combinations present in the holdout set, preserving the integrity of the evaluation. This robust dataset is well-suited for predicting movie ratings.
+- Model Development: regression, training, cross validation
+- Prediction: Forecasting ratings on an independent validation set.
 
 Before training the movie rating prediction algorithm, we prepare the 10-million MovieLens dataset. The dataset is downloaded, unzipped, and merged by joining the `ratings.dat` and `movies.dat` files on the `movieId` field. The merged dataset includes user ratings, movie information (titles and genres), and timestamps.
 
-We then split the dataset into two subsets: an **edx training set** (90% of the data) and a **final holdout test set** (10% of the data). To ensure integrity during evaluation, we verify that all user-movie combinations in the holdout set are also present in the training set. Below is the code used for these steps:
+Next, the dataset is split into two subsets: an **edx training set** (90% of the data) and a **final holdout test set** (10% of the data). To ensure integrity during evaluation, the code below also verify that all user-movie combinations in the holdout set are also present in the training set. Below is the code used for these steps:
 
 ## Load Data
 ```{r load packages, echo = FALSE, message=FALSE, warning=FALSE, results='hide'}
@@ -71,7 +67,7 @@ for (pkg in packages) {
 lapply(packages, library, character.only = TRUE)
 ```
 
-With the required packages loaded—collections of pre-written code, functions, and documentation that extend R’s functionality—we can now download the datasets two parts, define the variable types, combine them, and load it into the environment.
+With the required packages loaded—collections of pre-written code, functions, and documentation that extend R’s functionality—the two aprts of the dataset can now be downloaded, variable types can be defined, then combined, and load it into the environment.
 
 ```{r load and combine dataset, message=FALSE, warning=FALSE}
 # Increase timeout for downloading large datasets
@@ -136,7 +132,7 @@ edx <- rbind(edx, removed)
 rm(dl, ratings, movies, test_index, temp, movielens, removed)
 ```
 
-The dataset is now loaded, combined, and split into two parts: the edx training set (90%) and the final holdout test set (10%). This split ensures that the training set contains all user-movie combinations present in the test set, maintaining the integrity of the evaluation process.
+The dataset is now loaded, combined, and split into two parts: the edx training set (90%) and the final holdout test set (10%).
 
 ## Explore Data
 Before delving into feature development, it is essential to explore the data set to gain insights into its structure and characteristics. This exploratory phase increases understanding of the data set and guides subsequent steps in feature engineering and modeling.
@@ -205,7 +201,7 @@ The dataset spans a wide array of genres. The four most frequent genres are:
 - Thriller: Appears 2,325,899 times.
 - Romance: Appears 1,712,100 times.
 	
-There are a few movies with no genre listed. This edge case could present a problem when it comes to 
+There are a few movies with no genre listed. This edge case could present a problem when it comes to modeling on new datasets.
 
 ```{r data-genres and ratings, echo=TRUE}
 # Count how many movies belong to specific genres
@@ -236,7 +232,7 @@ ggplot(all_genres, aes(x = reorder(Genre, -Count), y = Count)) +
 ```
 
 ### Movie Rating Distribution
-The dataset spans a an entire century of movies. The the 4 decades with the most movie ratings are:
+The dataset spans an entire century of movies. The 4 decades with the most movie ratings are:
 
 - 90s
 - 2000s
@@ -291,12 +287,12 @@ This exploratory analysis highlights:
 - There are ratings for movies from 1950 to 2000s, with the majority in the 90s, presenting an opportunity to look a ratings by decade.
 - There are no NAs but some movies have no genres applied to them, representing an edge case that should be accounted for in feature development.
 
-This understanding lays the groundwork for the next step: Feature Development. By leveraging the insights gained here, we will create meaningful features that capture user preferences, movie attributes, and other contextual factors.
+This understanding lays the groundwork for the next step: Feature Development. By leveraging the insights gained here, meaningful features can be created that capture user preferences, movie attributes, and other contextual factors.
 
 
 ## Feature Engineering
 
-To build an effective movie rating prediction model, we must carefully construct features that capture meaningful patterns from the data. Feature engineering is the process of transforming raw data into informative variables, or “features,” that enhance the predictive power of a model. This step bridges the gap between exploratory data analysis and machine learning, enabling the model to make more accurate predictions.
+To build an effective movie rating prediction model, features must be built that capture meaningful patterns from the data. Feature engineering is the process of transforming raw data into informative variables, or “features,” that enhance the predictive power of a model. This step bridges the gap between exploratory data analysis and machine learning, enabling the model to make more accurate predictions.
 
 In the MovieLens dataset, features need to encapsulate key aspects of both users and movies. For example:
 
@@ -304,9 +300,9 @@ In the MovieLens dataset, features need to encapsulate key aspects of both users
 - Movie-specific features: A movie’s release year, how recently it was rated, the number of ratings it has received, and the overall sentiment reflected in its ratings.
 - Temporal features: Variables that account for the time of rating, such as the year, month, or even the day of the week.
 
-By deriving these features, we transform the raw data into a structured data set that highlights patterns related to user preferences and movie characteristics.
+By deriving these features, the raw data is transformed into a structured data set that highlights patterns related to user preferences and movie characteristics.
 
-To ensure consistency and scalability, we use a single processing function called feature_engineering. This function applies transformations to the raw data set in a systematic way, creating all the necessary features for modeling. Below is the code for the feature_engineering function, which includes user-specific, movie-specific, and temporal features:
+To ensure consistency and scalability,  a single processing function called feature_engineering is used. This function applies transformations to the raw data set in a systematic way, creating all the necessary features for modeling. Below is the code for the feature_engineering function, which includes user-specific, movie-specific, and temporal features:
 
 ```{r Feature engineering,echo = TRUE}
 feature_engineering <- function(data) {
@@ -314,12 +310,12 @@ feature_engineering <- function(data) {
   # Step 1: Extract movie year and other temporal features
   data <- data %>%
     mutate(
-      rating_year = year(as_datetime(timestamp)),
-      rating_month = month(as_datetime(timestamp)),
-      rating_day_of_week = wday(as_datetime(timestamp), label = TRUE),
-      movie_year = as.numeric(gsub("[^0-9]", "", str_extract(title, "\\((\\d{4})\\)"))),
-      movie_age = rating_year - movie_year,
-      decade = paste0(floor(movie_year / 10) * 10, "s") # Decade feature
+      rating_year = year(as_datetime(timestamp)),#year rating was given
+      rating_month = month(as_datetime(timestamp)),#month rating was given
+      rating_day_of_week = wday(as_datetime(timestamp), label = TRUE),#day of week rating was given
+      movie_year = as.numeric(gsub("[^0-9]", "", str_extract(title, "\\((\\d{4})\\)"))),#year of movie release
+      movie_age = rating_year - movie_year,#age of the movie
+      decade = paste0(floor(movie_year / 10) * 10, "s") # Decade of the movie release
     )
   
   # Step 2: User-specific features 
@@ -366,7 +362,7 @@ feature_engineering <- function(data) {
 }
 ```
 
-Now that the feature_engineering function has been created, it needs to be applied to the edx dataset, generating a new dataset (edx_clean) enriched with the engineered features and cleaned of NAs.
+Now that the feature_engineering function has been created, it needs to be applied to the edx dataset, generating a new dataset (edx_clean) enriched with the engineered features and cleaned of NAs (if new datasets had them).
 
 ```{r apply feature_engineering function, echo=TRUE}
 # Apply the feature engineering function to the edx dataset
@@ -374,7 +370,7 @@ edx_clean <- feature_engineering(edx)
 ```
 
 ## Feature Enginneering Validation
-Now that the feature engineering process has been applied, the following code validates that the feature_engineering function worked appropriately with the edx dataset and is clean. 
+Now that the feature engineering process has been applied, this section of code validates that the feature_engineering function worked appropriately with the edx dataset and is clean. 
 
 
 ```{r check-missing-values, echo=TRUE}
@@ -399,7 +395,7 @@ edx_clean %>%
   theme_minimal()
 ```
 
-The following checks confirms all columns have meaningful values, and the processed dataset now includes 26 columns, instead of the original 6. The first table below confirms the development if 20 new features, in additional to the 6 original columns, and the absence of missing values. However, there are several columns that show all 0s, so table two confirm these columns aren't empty. With 0 values numbering from 3 to 9 million, effective feature development is supported thus far.
+The first table below confirms the development of 20 new features, in additional to the 6 original columns, and the absence of missing values. However, there are several columns that show all 0s, so the second table below confirm these columns aren't empty. With non-zero values numbering from 3 to 9 million for each feature, effective feature development is supported thus far.
 
 ```{r check for non-zero values, echo=TRUE}
 # Check the head of all features and validate non-zero values
@@ -412,7 +408,7 @@ print("Number of non-zero values per column:")
 print(non_zero_summary)
 ```
 
-The histogram below reveals most trends are centered at 0, with some positive and negative deviations indicating variability in user behavior. This variability could support our prediction model.
+The histogram below reveals most trends are centered at 0, with some positive and negative deviations indicating variability in user behavior. This finding suggests that most users don't have a trend in their rating, but this small variability could support our prediction model.
 
 ```{r visualize rating distribution, echo=TRUE}
 # Visualize the distribution of user rating trends
@@ -422,7 +418,7 @@ ggplot(edx_clean, aes(x = trend)) +
   theme_minimal()
 ```
 
-The decade distribution confirms the feature captures historical trends, with most ratings for movies from the 1980s, 1990s, and 2000s.
+The decade distribution below confirms the feature captures historical trends, with most ratings for movies from the 1980s, 1990s, and 2000s. This feature aims to capitalize on nostalgic movie ratings or period-based movie ratings.
 
 ```{r validate deacde feature, echo=TRUE}
 # View and visualize decade distribution
@@ -463,7 +459,7 @@ cat("Training set dimensions: Rows:", nrow(train_set), "Columns:", ncol(train_se
 cat("Validation set dimensions: Rows:", nrow(validation_set), "Columns:", ncol(validation_set), "\n")
 ```
 
-As seen above, our first model will be trained on 7,200,045 rows of data across 26 variables and later it will be evaluated on 1,800,010 rows and 26 columns.
+As seen above, this model will be trained on 7,200,045 rows of data across 26 variables and later it will be evaluated on 1,800,010 rows and 26 columns.
 
 ### Selecting Regression For Modeling 
 
@@ -498,9 +494,9 @@ x <- as.matrix(train_set_numeric[, colnames(train_set_numeric) != "rating"])
 y <- train_set_numeric$rating
 ```
 
-With the dataset prepared and features engineered, the next step involves training an elastic net regression model using the Gaussian family. Elastic net regression is a robust technique that combines ridge and lasso regression for regularization, addressing overfitting while retaining the most relevant features. Ridge regression applies a penalty proportional to the squared magnitude of coefficients, effectively distributing the impact across correlated variables. In contrast, lasso regression adds a penalty proportional to the absolute value of coefficients, shrinking some coefficients to zero and excluding less relevant predictors. Elastic net leverages both approaches, balancing them with the parameter alpha. For this model, alpha = 0.5 was chosen to achieve an optimal balance between these two regularization techniques.
+With the dataset prepared and features engineered, the next step involves training an elastic net regression model using the Gaussian family. Elastic net regression is a robust technique that combines ridge and lasso regression for regularization, addressing overfitting while retaining the most relevant features. Ridge regression applies a penalty proportional to the squared magnitude of coefficients, effectively distributing the impact across correlated variables. In contrast, lasso regression adds a penalty proportional to the absolute value of coefficients, shrinking some coefficients to zero and excluding less relevant predictors. Elastic net leverages both approaches, balancing them with the parameter alpha. For this model, alpha = 0.5 was chosen to achieve an equal balance between these two regularization techniques.
 
-Cross-validation is employed to identify the optimal regularization parameter AKA lambda (which minimizes prediction error while maintaining feature interpretability).
+Below, cross-validation is employed to identify the optimal regularization parameter AKA lambda (which minimizes prediction error while maintaining feature interpretability).
 
 ```{r Perform elastic net regression (this will take a few minutes), echo= TRUE, error = FALSE, message=FALSE, warning=FALSE}
 # Elastic net regression with Gaussian family for continuous target
@@ -541,9 +537,9 @@ cat("RMSE for lambda.1se:", lambda_1se_rmse, "\n")
 
 ```
 
-The cross-validation plot generated by plot(elastic_net_model) illustrates the relationship between lambda and the model’s predictive performance. The x-axis represents lambda), the logarithm of the regularization parameter. Smaller lambda values include more features in the model, while larger lambda values exclude less significant predictors by shrinking their coefficients to zero. The y-axis shows the root mean squared error (RMSE), the model’s error metric during cross-validation. The curve depicts how RMSE varies across different lambda values, while the top axis indicates the number of features included in the model at each lambda value.
+The cross-validation plot generated by plot(elastic_net_model) illustrates the relationship between lambda and the model’s predictive performance. The x-axis represents lambda), the logarithm of the regularization parameter. Smaller lambda values include more features in the model, while larger lambda values exclude less significant predictors by shrinking their coefficients to zero. The y-axis shows the root mean squared error (RMSE), the model’s error metric during cross-validation. The curve depicts how error (RMSE) increases as lambda includes more variables.
 
-The leftmost part of the plot (smallest lambda) represents the model with the least regularization and the largest number of features. Conversely, the rightmost part (largest lambda represents the model with the most regularization and the fewest features. As shown by the blue line (which is obscured by the red line), the minimum RMSE point identifies the lambda value that achieves the lowest prediction error, referred to as lambda_min. Some approaches use 1se, but since both values are .0315 the lambda.min value will be used to build the final model.
+The leftmost part of the plot (smallest lambda) represents the model with the least regularization and the largest number of features. Conversely, the rightmost part (largest lambda represents the model with the most regularization and the fewest features. As shown by the blue line (which is obscured by the red line), the minimum RMSE point identifies the lambda value that achieves the lowest prediction error, referred to as lambda_min. Some approaches use values within 1 standard deviation of lambda_min, but since both values are .0315 the lambda.min value will be used to build the final model.
 
 The optimal lambda is determined by the lambda_min value from cross-validation. This parameter minimizes prediction error while maintaining model simplicity by excluding irrelevant features.
 
@@ -594,11 +590,11 @@ The residuals, representing the difference between actual and predicted ratings,
 With this strong result on the validation set, it's time to test the developed model on the independent final_hold set.
 
 # Results
-In this section, the trained model is evaluated on the final holdout set to assess its performance on completely unseen data. The process involves applying feature engineering, aligning predictors, and calculating the Root Mean Squared Error (RMSE), which serves as the primary metric for model accuracy.
+In this section, the trained model is evaluated on the final holdout set to assess its performance on completely unseen data. The process involves applying feature engineering, setting predictor variables as numeric, making the prediction, and calculating the Root Mean Squared Error (RMSE), which serves as the primary metric for model accuracy.
 
 ## Preparing the Final Holdout Set
 
-To ensure consistency, feature engineering is applied to the final holdout set. Numeric and essential categorical columns are retained, while unnecessary columns like title are excluded. The processed dataset is then prepared for prediction.
+To ensure consistency, feature engineering is applied to the final holdout set. Just like before, Numeric and essential categorical columns are retained, while unnecessary columns like title are excluded. The processed dataset is then prepared for prediction.
 
 ```{r prepare final holdout test, echo =TRUE, message = FALSE, warning = FALSE}
 # Apply the feature engineering function to the final holdout set
@@ -639,7 +635,7 @@ if (ncol(x_holdout) == length(coef(final_model)) - 1) {
 ## Output
 The RMSE calculated on the final holdout was ~.03262. This is a negligible increase from the models performance on the validation set .03147. As a result, we can conclude this model provides a robust measure of how accurately the model predicts movie ratings for unseen data.
 
-Like the grey residuals histogram generated for the validation_set performance, the predictions fell within +.05 and - .05 for the majoirty of predictions. This results shows the strength of the model by way of predictions being between 1 rating level.
+Like the grey residuals histogram generated for the validation_set performance, the predictions on the final holdout set fell within +.05 and - .05 for the majoirty of predictions. This results shows the strength of the model by way of predictions being between 1 rating level.
 
 ```{r Visualize Model Performance on Final Holdout Set, echo=TRUE, warning=FALSE}
 # Calculate residuals for the final holdout set
@@ -682,7 +678,7 @@ print(largest_errors_table)
 
 
 # Conslusion
-This report has loaded, cleaned, and developed features for a training set of the MovieLens 10mmillion dataset. Afterward, features were engineering to increase the power of the data available. Next, a machine learning algorithm was trained using Gaussian regression with an elastic net technique. Once trained, the model produced an RMSE of ~.0315 on the validation set. Finally, the model was used to predict movies ratings on the Final Holdout set and produced an RMSE of ~.0326. This results confirms that the model effectively predicts movie ratings within a half star out of 5 stars. Therefore, this model is an effective tool for predicting movielens movie ratings. 
+This report has loaded, cleaned, and developed features for a training set of the MovieLens 10million dataset. Afterward, features were turned into numeric types to prepare for regression modeling. Next, a machine learning algorithm was trained using Gaussian regression with an elastic net technique. Once trained, the model produced an RMSE of ~.0315 on the validation set. Finally, the model was used to predict movies ratings on the Final Holdout set and produced an RMSE of ~.0326. This results confirms that the model effectively predicts movie ratings within a half star out of 5 stars. Therefore, this model is an effective tool for predicting movielens movie ratings. 
 
 ## Limtations
 Despite extensive preprocessing, the feature engineering pipeline heavily relies on the absence of missing values in the dataset. If applied to new, uncleaned datasets, the feature creation function may fail due to NA values or unexpected data formats. Enhancing robustness through NA handling and input validation would improve the model’s scalability.
@@ -692,13 +688,11 @@ The Gaussian regression model allowed for continuous predictions, providing a hi
 The dataset’s historical nature introduces data imbalance, particularly for older movies with fewer ratings. This imbalance may reduce prediction accuracy for specific subsets, such as niche or vintage films. Moreover, temporal effects, such as seasonal spikes in viewership (e.g., horror films during Halloween), were not explicitly modeled, potentially leaving valuable information untapped.
 
 ## Future Direction
-To address the limitation of invalid rating predictions, future iterations could explore classification models. These would predict discrete rating categories (e.g., 0.5-star increments) rather than continuous values. Techniques such as ordinal regression or multi-class classification with softmax outputs could be effective for this purpose
+To address the limitation of invalid rating predictions, future iterations could explore classification models. These would predict discrete rating categories (e.g., 0.5-star increments) rather than continuous values. Techniques such as ordinal regression or multi-class classification with softmax outputs could be effective for this purpose.
 
 The model currently incorporates basic user-specific features such as average ratings and rating trends. Expanding this feature set to include interactions with genres, time of year (e.g., holidays), or platform activity patterns (e.g., binge-watching behavior) could improve predictive performance and provide deeper insights into user preferences.
 
-Incorporating temporal data, such as the release year or month, and modeling seasonal patterns (e.g., holiday-related spikes) could significantly improve predictions. This direction may involve feature engineering to identify periods when movies gain or lose popularity or sentiment shifts over time.
-
-Feature engineering can be further expanded to include embeddings for movies, genres, or users using techniques like collaborative filtering or deep learning approaches (e.g., matrix factorization or neural networks). These methods could uncover latent factors influencing ratings, yielding a more robust and scalable prediction system.
+Feature engineering can be further expanded to include embedding for movies, genres, or users using techniques like collaborative filtering or deep learning approaches (e.g., matrix factorization or neural networks). These methods could uncover latent factors influencing ratings, yielding a more robust and scalable prediction system.
 
 # Citations
 Durrani, A. (2024, August 15). Top streaming statistics in 2024. Forbes. https://www.forbes.com/home-improvement/internet/streaming-stats/ 
