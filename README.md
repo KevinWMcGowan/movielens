@@ -28,14 +28,27 @@ Since the dataset exceeds GitHub's file size limit, it is not included in this r
 
 ## 🚀 How to Run
 
-1. Clone the repository:
-   ```bash
-    git clone https://github.com/KevinWMcGowan/movielens.git
-2. Install necessary R packages:
-   glmnet, dplyr, stringr, tidyverse, and more (full list in the R script & performed automatically).
-3. Open the R project in RStudio.
-4. Run the R Markdown file to generate the report:
-rmarkdown::render("Movielens_report.Rmd")
+Instructions for Running the Project
+
+This repository contains all the necessary files for the MovieLens project, including an R script for analysis, an R Markdown file for generating a comprehensive report, and the final PDF output.
+
+Running the Code
+
+	1.	Download the R Script:
+	•	Navigate to the scripts/ folder and download the R script (Movielens_analysis.R).
+	•	Open the script in R or RStudio and run the code sequentially to reproduce the analysis.
+	2.	Generate the Full Report:
+	•	Navigate to the reports/ folder and download the R Markdown file (Movielens_report.Rmd).
+	•	Open the file in RStudio and click the “Knit” button to generate the report in PDF format.
+	•	Note: This will re-run the entire analysis, including downloading the MovieLens dataset and processing it.
+	3.	View the Final Report:
+	•	To see the results without re-running the analysis, simply open the pre-generated PDF report (Movielens_report.pdf) located in the reports/ folder.
+
+Additional Notes
+
+	•	Both the R script and R Markdown file include code for downloading the MovieLens dataset directly from its official source.
+	•	Running the R script or knitting the R Markdown file will automatically install required R packages if they are not already installed.
+	•	The dataset is approximately 200 MB. Ensure you have a stable internet connection when running the analysis for the first time.
 
 
 ## 🧠 Methodology
