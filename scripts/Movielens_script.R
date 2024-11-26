@@ -6,7 +6,10 @@
 # - Ensure necessary libraries are installed (see library loading section).
 # - The script will download the MovieLens dataset if not already present. 
 
-#load libraries
+
+################################################################################
+# Load Libraries and Setup
+################################################################################
 # List of required packages
 packages <- c("readr", "tinytex", "dplyr", "caret", "stringr", "tidyverse", "tidyr", "broom", "glmnet", "Matrix","coefplot")
 
@@ -19,8 +22,13 @@ for (pkg in packages) {
 
 # Load the libraries
 lapply(packages, library, character.only = TRUE)
+
+
 ################################################################################
-#Download, load, and split the dataset into edx (90% for training) an Final Holdout (10% for testing)
+# Download Data
+################################################################################
+
+#Download, load, and split the dataset into edx (90% for training) and Final Holdout (10% for testing)
 
 # Increase timeout for downloading large datasets
 options(timeout = 120)
@@ -82,6 +90,7 @@ rm(dl, ratings, movies, test_index, temp, movielens, removed)
 
 ################################################################################
 #check and inspect data set
+################################################################################
 
 ##see top 5 rows of each column
 head(edx)
@@ -132,6 +141,7 @@ print(rating_summary)
 
 ################################################################################
 # Feature Engineering
+################################################################################
 
 # This section includes a function that will succinctly build all 20 features to 
 # get the most out of the dataset. Features fall into three categories: 
@@ -201,6 +211,7 @@ edx_clean <- feature_engineering(edx)
 
 ################################################################################
 # Feature Validation with Visualizations 
+################################################################################
 
 # This section checks and evaluates the features developed above for errors.
 
@@ -286,6 +297,7 @@ cat("Rows:", nrow(edx_clean), "Columns:", ncol(edx_clean), "\n")
 
 ################################################################################
 # Numeric Modeling Algorithm
+################################################################################
 
 # This script uses Gaussian regression to predict movie ratings as a continuous variable.
 # Regression offers high accuracy for continuous targets but may predict arbitrary decimals 
@@ -379,8 +391,10 @@ final_model <- glmnet(x, y, alpha = 0.5, lambda = best_lambda_rmse)
 # Print coefficients of the final model
 print(coef(final_model))
 
+
 ################################################################################
 # Predict on the Validation Set
+################################################################################
 
 # Prepare the predictor matrix (x_val) and target variable (y_val)
 x_val <- as.matrix(validation_set_numeric[, colnames(validation_set_numeric) != "rating"])
@@ -400,6 +414,7 @@ cat("RMSE on Validation Set (Optimized for RMSE):", rmse_validation, "\n")
 
 ################################################################################
 # visualize the predictions 
+################################################################################
 
 # check predicted vs actual
 residuals <- y_val - predictions
@@ -414,9 +429,9 @@ hist(residuals, breaks = 50, main = "Residuals Distribution", xlab = "Residuals"
 # With this solid performance, it's time for to test the model on the independent final holdout set.
 
 
-
 ################################################################################
 # Final Holdout Test
+################################################################################
 
 # This section tests the trained model on the final holdout set.
 
@@ -453,7 +468,9 @@ if (ncol(x_holdout) == length(coef(final_model)) - 1) {
 # confirming the model's robustness in predicting movie ratings for unseen data.
 
 
+################################################################################
 # visualize the performance
+################################################################################
 
 # Calculate residuals for the final holdout set
 residuals_holdout <- y_holdout - predictions_holdout
@@ -494,7 +511,9 @@ cat("Details of Movies with the Largest Prediction Errors:\n")
 print(largest_errors_table)
 
 
+################################################################################
 # Discussion
+################################################################################
 
 #An RMSE of ~0.0326 on a scale of 0.5 to 5.0 ratings indicates very high accuracy. The predictions are extremely close to the actual ratings.
 #This level of performance suggests the feature engineering, model selection (elastic net), and hyperparameter tuning were effective.
