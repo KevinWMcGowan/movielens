@@ -30,7 +30,7 @@ Since the dataset exceeds GitHub's file size limit, it is not included in this r
    glmnet, dplyr, stringr, tidyverse, and more (full list in the R script & performed automatically).
 3. Open the R project in RStudio.
 4. Run the R Markdown file to generate the report:
-rmarkdown::render("Movielens_report.Rmd")
+```rmarkdown::render("Movielens_report.Rmd")
 
 
 ## 🧠 Methodology
