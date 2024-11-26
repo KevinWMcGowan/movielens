@@ -1,6 +1,6 @@
 # 🎥 MovieLens Rating Prediction Project
 
-Welcome to the **MovieLens Rating Prediction Project**, an in-depth analysis and predictive modeling initiative leveraging the MovieLens 10M dataset. This repository includes an R Markdown report (`Movielens_report.Rmd`) and a companion R script (`Movielens_analysis.R`) to explore, process, and model movie ratings.
+Welcome to the **MovieLens Rating Prediction Project**, an in-depth analysis and predictive modeling project leveraging the MovieLens 10M dataset. This repository includes an R Markdown report (`Movielens_report.Rmd`), a PDF version knit from the R Markdown report (`Movielens_report.pdf), and  a companion R script (`Movielens_analysis.R`) to explore, process, and model movie ratings.
 
 ## 📚 Overview
 
