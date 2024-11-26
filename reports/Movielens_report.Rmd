@@ -4,7 +4,7 @@ author: "Kevin McGowan"
 date: "2024-11-25"
 output:
   pdf_document: default
-  html_document:
+  html_document: default
     df_print: paged
 ---
 
@@ -635,6 +635,7 @@ if (ncol(x_holdout) == length(coef(final_model)) - 1) {
   cat("RMSE on Final Holdout Set:", rmse_holdout, "\n")
 }
 ```
+
 ## Output
 The RMSE calculated on the final holdout was ~.03262. This is a negligible increase from the models performance on the validation set .03147. As a result, we can conclude this model provides a robust measure of how accurately the model predicts movie ratings for unseen data.
 
