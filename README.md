@@ -12,3 +12,22 @@ The goal of this project is to develop a machine learning model capable of predi
 - Evaluated model performance using **Root Mean Squared Error (RMSE)**.
 
 ## 📂 Repository Structure
+
+## 📊 Dataset Information
+
+The dataset used is the [MovieLens 10M Dataset](https://files.grouplens.org/datasets/movielens/ml-10m.zip). It includes:
+- **10 million ratings** from **72,000 users** on **10,000 movies**.
+- **Key fields**: `userId`, `movieId`, `rating`, `timestamp`, `title`, and `genres`.
+
+Since the dataset exceeds GitHub's file size limit, it is not included in this repository. The analysis script and report automatically download and process the dataset.
+
+## 🚀 How to Run
+
+1. Clone the repository:
+   ```bash
+    git clone https://github.com/KevinWMcGowan/movielens.git
+2.	Install necessary R packages:
+	•	glmnet, dplyr, stringr, tidyverse, and more (full list in the R script & performed automatically).
+3.	Open the R project in RStudio.
+4.	Run the R Markdown file to generate the report:
+  • rmarkdown::render("Movielens_report.Rmd")
