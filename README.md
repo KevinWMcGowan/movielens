@@ -27,7 +27,28 @@ Since the dataset exceeds GitHub's file size limit, it is not included in this r
    ```bash
     git clone https://github.com/KevinWMcGowan/movielens.git
 2.	Install necessary R packages:
-	•	glmnet, dplyr, stringr, tidyverse, and more (full list in the R script & performed automatically).
+   glmnet, dplyr, stringr, tidyverse, and more (full list in the R script & performed automatically).
 3.	Open the R project in RStudio.
 4.	Run the R Markdown file to generate the report:
   • rmarkdown::render("Movielens_report.Rmd")
+
+
+## 🧠 Methodology
+
+1. Data Processing:
+	•	Merged and cleaned the ratings and movies datasets.
+	•	Engineered features like user rating counts, average ratings, and movie release decades.
+	2.	Modeling:
+	•	Used Elastic Net Regression with cross-validation to optimize lambda (regularization).
+	•	Evaluated model performance on training, validation, and final holdout sets.
+	3.	Performance:
+	•	Achieved an RMSE of ~0.032 on the final holdout set, highlighting the model’s robustness.
+
+## 📋 Key Results
+
+	•	The model predicts movie ratings with a low error rate, providing a strong foundation for building recommendation systems.
+	•	Features like user_movie_diff, user_avg_rating, and movie_avg_rating were the most influential predictors.
+
+## 🤝 Connect
+
+Feel free to connect with me on LinkedIn for collaboration opportunities:
