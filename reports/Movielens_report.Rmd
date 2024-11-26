@@ -688,7 +688,7 @@ The Gaussian regression model allowed for continuous predictions, providing a hi
 
 The dataset’s historical nature introduces data imbalance, particularly for older movies with fewer ratings. This imbalance may reduce prediction accuracy for specific subsets, such as niche or vintage films. Moreover, temporal effects, such as seasonal spikes in viewership (e.g., horror films during Halloween), were not explicitly modeled, potentially leaving valuable information untapped.
 
-## Future Direction
+## Future Directions
 To address the limitation of invalid rating predictions, future iterations could explore classification models. These would predict discrete rating categories (e.g., 0.5-star increments) rather than continuous values. Techniques such as ordinal regression or multi-class classification with softmax outputs could be effective for this purpose.
 
 The model currently incorporates basic user-specific features such as average ratings and rating trends. Expanding this feature set to include interactions with genres, time of year (e.g., holidays), or platform activity patterns (e.g., binge-watching behavior) could improve predictive performance and provide deeper insights into user preferences.
