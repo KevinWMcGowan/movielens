@@ -1,7 +1,7 @@
 ---
 title: "MovieLens Project Report"
 author: "Kevin McGowan"
-date: "2024-11-25"
+date: "2024-11-26"
 output:
   html_document:
     df_print: paged
@@ -13,8 +13,8 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Introduction
-This MovieLens project report, part of the HarvardX: PH125.9x Data Science: Capstone course, explores the development of a machine learning algorithm to predict movie ratings—a critical step in creating personalized recommendation systems. These systems have become essential tools in the video streaming industry, where engaging viewers with tailored content enhances satisfaction, retention, and engagement duration. This report outlines the step-by-step methodology for building and validating a machine learning model to predict movie ratings:
+# Abstract
+This MovieLens project report, part of the HarvardX: PH125.9x Data Science: Capstone course, explores the development of a machine learning algorithm to predict movie ratings—a critical step in creating personalized recommendation systems. These systems have become essential tools in the video streaming industry, where engaging viewers with tailored content enhances satisfaction, retention, and engagement duration. This report performs the step-by-step methodology for building and validating a machine learning model to predict movie ratings by following this outline:
 
 - **Introduction**
 - **Methodology**
@@ -26,6 +26,7 @@ This MovieLens project report, part of the HarvardX: PH125.9x Data Science: Caps
   - Testing on Independent Final Holdout Set
 - **Discussion**
 
+# Introduction
 In August 2024, Forbes reported that Netflix, the global leader in video streaming, had 260.28 million subscribers worldwide, with the global video streaming industry valued at $544 billion annually (Durrani & Allen, 2024). Personalized recommendation systems are vital for platforms like Netflix to keep viewers engaged by presenting content aligned with user preferences. This report focuses on developing a robust predictive model that leverages historical user behavior and movie characteristics to forecast ratings. Accurate rating predictions serve as the foundation for crafting personalized recommendations, not only improving viewer satisfaction but also informing strategic content decisions.
 
 Beyond entertainment, machine learning models like this have broad applications in other industries, such as forecasting property values in real estate or predicting high school graduation rates in education. By demonstrating the process of building and validating a predictive model, this report provides insights into how historical patterns can inform future behavior and decision-making.
@@ -370,8 +371,22 @@ Now that the feature_engineering function has been created, it needs to be appli
 edx_clean <- feature_engineering(edx)
 ```
 
+## Feature Engineering Summary
+Now that the feature engineering process has been applied, the following code shows a summary of all the features now in the dataset:
+```{r summary of features, echo =TRUE}
+# Extract feature namess
+feature_names <- colnames(edx_clean)
+
+# Create a data frame for display
+feature_table <- data.frame(Feature_Names = feature_names)
+
+# Print the feature table
+print(feature_table)
+
+```
+
 ## Feature Enginneering Validation
-Now that the feature engineering process has been applied, this section of code validates that the feature_engineering function worked appropriately with the edx dataset and is clean. 
+With the features reviewed, this section of code validates that the feature_engineering function worked appropriately with the edx dataset and is clean. 
 
 
 ```{r check-missing-values, echo=TRUE}

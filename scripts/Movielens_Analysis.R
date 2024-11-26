@@ -209,6 +209,18 @@ feature_engineering <- function(data) {
 edx_clean <- feature_engineering(edx)
 
 
+# Feature Engineering Summary
+  #Now that the feature engineering process has been applied, the following code shows a summary
+
+# Extract feature namess
+feature_names <- colnames(edx_clean)
+
+# Create a data frame for display
+feature_table <- data.frame(Feature_Names = feature_names)
+
+# Print the feature table
+print(feature_table)
+
 ################################################################################
 # Feature Validation with Visualizations 
 ################################################################################
@@ -484,13 +496,15 @@ hist(
   col = "skyblue",
   border = "white"
 )
-#Like the histogram of residuals on the validation set, most predictions fell within + or - .05. 
-#Which is within 1 rating level- this is an accurate result.
+# Like the histogram of residuals on the validation set, most predictions fell within + or - .05. 
+# Which is within 1 rating level- this is an accurate result.
 
 
 # Top 10 largest errors
-#The table below shows that our largest mistakes were .13 and these mistakes don't appear to be in any particular genre or decade, suggestion
-#no absolutely neccessary adjustments.
+
+# The table below shows that our largest mistakes were .13 and these mistakes don't appear to be in any particular genre or decade, suggestion
+# no absolutely necessary adjustments.
+
 # Calculate residuals and absolute residuals
 residuals_holdout <- y_holdout - predictions_holdout
 absolute_residuals <- abs(residuals_holdout)
