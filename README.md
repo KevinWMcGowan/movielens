@@ -12,7 +12,13 @@ The goal of this project is to develop a machine learning model capable of predi
 - Evaluated model performance using **Root Mean Squared Error (RMSE)**.
 
 ## 📂 Repository Structure
-
+movielens/
+│
+├── reports/                  # Directory for report outputs
+│   ├── Movielens_report.Rmd  # R Markdown file for the detailed report
+│   └── Movielens_report.pdf  # PDF version of the R Markdown report (to be added)
+├── scripts/                  # Contains the R script
+│   └── Movielens_analysis.R  # Script for all analysis and modeling
 ## 📊 Dataset Information
 
 The dataset used is the [MovieLens 10M Dataset](https://files.grouplens.org/datasets/movielens/ml-10m.zip). It includes:
