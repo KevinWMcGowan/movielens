@@ -1,5 +1,5 @@
 ---
-title: "MovieLens Project"
+title: "MovieLens Project Report"
 author: "Kevin McGowan"
 date: "2024-11-25"
 output:
@@ -173,7 +173,7 @@ most_common_ratings <- edx %>%
 
 print(most_common_ratings)
 
-# show all unique ratings form smallest to largest
+# show all unique ratings from smallest to largest
 sorted_ratings <- sort(unique(edx$rating))
 sorted_ratings
 ```
