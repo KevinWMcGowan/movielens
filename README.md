@@ -15,7 +15,7 @@ The goal of this project is to develop a machine learning model capable of predi
 - **movielens/**
   - **reports/**: Directory for report outputs
     - `Movielens_report.Rmd`: R Markdown file for the detailed report
-    - `Movielens_report.pdf`: PDF version of the R Markdown report (to be added)
+    - `Movielens_report.pdf`: PDF version knit from R Markdown report
   - **scripts/**: Contains the R script
     - `Movielens_analysis.R`: Script for all analysis and modeling
 ## 📊 Dataset Information
