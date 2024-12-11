@@ -3,9 +3,9 @@ title: "MovieLens Project Report"
 author: "Kevin McGowan"
 date: "2024-11-26"
 output:
-  html_document:
+  pdf_document:
     df_print: paged
-  pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -45,7 +45,7 @@ Before training the movie rating prediction algorithm out of the 10mil dataset, 
 - Load Data: download, unzip, and combine ratings.dat and movies.dat;
 - Explore Data: variables, dimensions, and insights
 - Feature Development: descriptive statistics of users and movies
-- Model Development: regression, training, cross validation
+- Model Development: training and cross validation
 - Prediction: Forecasting ratings on an independent validation set.
 
 Before training the movie rating prediction algorithm, we prepare the 10-million MovieLens dataset. The dataset is downloaded, unzipped, and merged by joining the `ratings.dat` and `movies.dat` files on the `movieId` field. The merged dataset includes user ratings, movie information (titles and genres), and timestamps.
@@ -692,7 +692,7 @@ print(largest_errors_table)
 ```
 
 
-# Conslusion
+# Discussion
 This report has loaded, cleaned, and developed features for a training set of the MovieLens 10million dataset. Afterward, features were turned into numeric types to prepare for regression modeling. Next, a machine learning algorithm was trained using Gaussian regression with an elastic net technique. Once trained, the model produced an RMSE of ~.0315 on the validation set. Finally, the model was used to predict movies ratings on the Final Holdout set and produced an RMSE of ~.0326. This results confirms that the model effectively predicts movie ratings within a half star out of 5 stars. Therefore, this model is an effective tool for predicting movielens movie ratings. 
 
 ## Limtations
